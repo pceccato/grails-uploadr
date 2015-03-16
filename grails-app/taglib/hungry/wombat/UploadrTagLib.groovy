@@ -31,6 +31,7 @@ class UploadrTagLib {
 	 */
 	def add = { attrs, body ->
 		def uri
+		def overrideUri     	= attrs.containsKey('uri') ? attrs.get('uri') : null
 		def sound 			= !(attrs.containsKey('noSound') && attrs.get('noSound').toString().toBoolean())
 		def name			= (attrs.containsKey('name') ? attrs.get('name') : UUID.randomUUID())
 		def classname		= (attrs.containsKey('class') ? attrs.get('class') : 'uploadr')
@@ -84,7 +85,7 @@ class UploadrTagLib {
 			// and remember stuff in the session
 			if (!session.uploadr[name]) {
 				session.uploadr[name] = [
-					uri		: uri,
+                        		uri	: overrideUri ? overrideUri : uri,
 					path	: attrs.path,
                     model   : model,
                     created : new Date()
@@ -125,7 +126,7 @@ class UploadrTagLib {
 			model	:[
 				name		        : name,
 				maxSize		        : maxSize,
-				uri			        : uri,
+                        	uri			: overrideUri ? overrideUri : uri,
 				direction 	        : direction,
 				placeholder	        : placeholder,
 				fileselect 	        : fileselect,
